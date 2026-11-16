@@ -1,0 +1,173 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-slate: #284b63;
+  --color-teal: #3c6e71;
+  --color-mist: #d9d9d9;
+  --color-charcoal: #353535;
+  --color-deep: #1c3345;
+  --color-tint: #a3c6c8;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-white text-navy antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-bold tracking-tight;
+  }
+
+  /* Visible on both light and dark surfaces (white halo + teal ring) */
+  :focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #3c6e71;
+  }
+}
+
+@layer components {
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:font-semibold focus:text-navy focus:shadow-lg;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 rounded-lg bg-orange px-6 py-3 font-semibold text-white shadow-md transition-all duration-200 hover:bg-amber hover:text-navy hover:shadow-lg active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 rounded-lg border-2 border-navy bg-transparent px-6 py-3 font-semibold text-navy transition-all duration-200 hover:bg-navy hover:text-white active:scale-95;
+  }
+
+  .btn-outline-white {
+    @apply inline-flex items-center gap-2 rounded-lg border-2 border-white bg-transparent px-6 py-3 font-semibold text-white transition-all duration-200 hover:bg-white hover:text-navy active:scale-95;
+  }
+
+  .section-title {
+    @apply font-display text-3xl font-bold leading-tight text-navy md:text-4xl lg:text-5xl;
+  }
+
+  .section-subtitle {
+    @apply max-w-2xl text-lg text-navy/80;
+  }
+
+  .card-base {
+    @apply rounded-2xl bg-white p-6 shadow-card transition-all duration-300 hover:shadow-card-hover;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
+  }
+
+  .nav-link {
+    @apply font-medium text-navy/80 transition-colors duration-200 hover:text-navy;
+  }
+
+  /* Glassmorphism surfaces */
+  .glass {
+    @apply border border-white/15 bg-white/[0.06] backdrop-blur-xl;
+  }
+
+  .glass-strong {
+    @apply border border-white/20 bg-brand-slate/70 backdrop-blur-2xl;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.18em];
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-sky-mid to-navy bg-clip-text text-transparent;
+  }
+
+  .text-gradient-warm {
+    @apply bg-gradient-to-r from-orange to-amber bg-clip-text text-transparent;
+  }
+
+  /* Animated teal-tint -> white gradient text, for use on dark surfaces */
+  .text-gradient-animated {
+    @apply animate-gradient-shift bg-gradient-to-r from-brand-tint via-white to-brand-tint bg-[length:200%_auto] bg-clip-text text-transparent;
+  }
+
+  .bg-hero {
+    background-color: #284b63;
+    background-image:
+      radial-gradient(ellipse at 15% 55%, rgba(60, 110, 113, 0.55) 0%, transparent 55%),
+      radial-gradient(ellipse at 85% 10%, rgba(163, 198, 200, 0.22) 0%, transparent 55%),
+      linear-gradient(135deg, #1c3345 0%, #284b63 55%, #353535 130%);
+  }
+
+  /* Faint engineering grid, fades toward the edges */
+  .bg-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.07) 1px, transparent 1px);
+    background-size: 56px 56px;
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
+    mask-image: radial-gradient(ellipse at center, #000 25%, transparent 75%);
+  }
+
+  /* Subtle film grain — parent must establish a stacking context */
+  .grain {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  }
+
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+
+  .container-tight {
+    @apply mx-auto max-w-6xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Respect prefers-reduced-motion for every CSS animation/transition */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
